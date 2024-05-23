@@ -12,7 +12,7 @@ router.post("/posts", posts.createPost);
 //--------------------------------------Segundo desafío
 
 //Rutas de modificación
-router.patch("/posts/:id");
-router.delete("/posts/:id");
+router.put("/posts/like/:id", posts.updatePostsById);
+router.delete("/posts/:id", posts.deletePostById);
 
 module.exports = router;

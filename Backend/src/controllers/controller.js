@@ -1,17 +1,15 @@
 const posts = require("../models/model.js");
 
-//crear clase como almacenador de funciones, osea PostsController guarda harttas funciones
+//crear clase como almacenador de funciones, o sea PostsController guarda harttas funciones
 class PostsControllers {
   constructor() {}
 
   getPosts = async (req, res) => {
     try {
       const response = await posts.queryGetPosts();
-
-      res.json(response);
+      res.send(response);
     } catch (error) {
-      console.log(error);
-      res.json(error);
+      res.status(500).json({ error: error.message });
     }
   };
 
@@ -22,19 +20,35 @@ class PostsControllers {
       //   const payload = req.body;
 
       const response = await posts.queryCreatePosts(req.body);
-      res.status(200).json(response);
+      res.status(201).json(response);
     } catch (error) {
-      res.json({
-        error: error,
-      });
+      res.status(500).json({ error: error.message });
     }
   };
 
   //--------------------------------------Segundo desafío
 
-  updatePostsById = async (req, res) => {};
+  updatePostsById = async (req, res) => {
+    try {
+      //req.params captura datos de la url en este caso /id
+      const { id } = req.params;
+      console.log(id);
+      await posts.queryUptadePostsId(id);
+      res.status(200).json({ message: "Le diste like" });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };
 
-  deletePostById = async (req, res) => {};
+  deletePostById = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const response = await posts.queryDeletePostId(id);
+      res.status(200).json(response.message);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };
 }
-//Siempre se eporta solo la clase
+//Siempre se exporta solo la clase
 module.exports = new PostsControllers();
