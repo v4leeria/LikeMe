@@ -17,7 +17,7 @@ class PostsModel {
     const sql = `INSERT INTO posts VALUES (DEFAULT, $1, $2, $3, $4)`;
     const { rowsCount } = await pool.query(sql, values);
     if (!rowsCount) {
-      throw { status: 400, message: "No se puedo insertar post" };
+      throw { status: 400, message: "No se pudo insertar post" };
     }
     return { status: 200, message: "Post creado con exito" };
   };
